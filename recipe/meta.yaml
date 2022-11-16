@@ -1,5 +1,6 @@
 {% set name = "databricks-cli" %}
-{% set version = "0.12.1" %}
+{% set version = "0.17.3" %}
+{% set sha256 = "2f00f3e70e859809f0595885ec76fc73ba60ad0cccd69564f7df5d95b6c90066" %}
 
 package:
   name: {{ name|lower }}
@@ -7,58 +8,73 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5114f37f58c7d539153120a00a1901110752ac7c3a1ca4c6ec0584b979c85410
+  sha256: {{ sha256 }}
 
 build:
   number: 0
   entry_points:
     - databricks=databricks_cli.cli:cli
     - dbfs=databricks_cli.dbfs.cli:dbfs_group
-  noarch: python
   script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv
 
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
     - setuptools
+    - wheel
   run:
-    - click >=6.7
-    - configparser >=0.3.5
-    - python >=3.6
+    - python
+    - click >=7.0
+    - pyjwt >=1.7.0
+    - oauthlib >=3.1.0
     - requests >=2.17.3
-    - six >=1.10.0
     - tabulate >=0.7.7
-    - tenacity
+    - six >=1.10.0
+    - configparser >=0.3.5  # [py<36]
 
 test:
+  requires:
+    - pip
   imports:
     - databricks_cli
+    - databricks_cli.cluster_policies
     - databricks_cli.clusters
     - databricks_cli.configure
     - databricks_cli.dbfs
     - databricks_cli.groups
+    - databricks_cli.instance_pools
     - databricks_cli.jobs
     - databricks_cli.libraries
+    - databricks_cli.oauth
+    - databricks_cli.pipelines
+    - databricks_cli.repos
     - databricks_cli.runs
     - databricks_cli.sdk
     - databricks_cli.secrets
     - databricks_cli.stack
+    - databricks_cli.tokens
+    - databricks_cli.unity_catalog
     - databricks_cli.workspace
-    - integration
-    - integration.dbfs
-    - integration.workspace
   commands:
     - databricks --help
     - dbfs --help
+    - pip check
 
 about:
   home: https://github.com/databricks/databricks-cli
-  license: Apache 2.0
+  summary: A command line interface for Databricks
+  description: |
+    The Databricks Command Line Interface (CLI) is an open source tool
+    which provides an easy to use interface to the Databricks platform.
+    The CLI is built on top of the Databricks REST APIs.
+  license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
-  summary: A command line interface for Databricks
+  license_url: https://github.com/databricks/databricks-cli/blob/main/LICENSE.txt
   dev_url: https://github.com/databricks/databricks-cli
+  doc_url: https://docs.databricks.com/dev-tools/cli/index.html
+  doc_source_url: ""
 
 extra:
   recipe-maintainers:
