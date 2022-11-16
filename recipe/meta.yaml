@@ -20,9 +20,11 @@ build:
 requirements:
   host:
     - pip
-    - python >=3.6
+    - python
     - setuptools
+    - wheel
   run:
+    - python
     - click >=7.0
     - pyjwt >=1.7.0
     - oauthlib >=3.1.0
@@ -66,12 +68,13 @@ about:
     The Databricks Command Line Interface (CLI) is an open source tool
     which provides an easy to use interface to the Databricks platform.
     The CLI is built on top of the Databricks REST APIs.
-  license: Apache 2.0
+  license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
   license_url: https://github.com/databricks/databricks-cli/blob/main/LICENSE.txt
   dev_url: https://github.com/databricks/databricks-cli
   doc_url: https://docs.databricks.com/dev-tools/cli/index.html
+  doc_source_url: ""
 
 extra:
   recipe-maintainers:
