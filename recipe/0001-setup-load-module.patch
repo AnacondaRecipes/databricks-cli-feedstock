@@ -1,0 +1,17 @@
+--- a/setup.py
++++ b/setup.py
+@@ -24,8 +24,10 @@
+ import io
+ import os
+ from setuptools import setup, find_packages
+-from importlib.machinery import SourceFileLoader
++import importlib.util
+ 
+ path_to_module = os.path.join('databricks_cli', 'version.py')
+-loaded_module = SourceFileLoader('databricks_cli.version', path_to_module).load_module()
++spec = importlib.util.spec_from_file_location('databricks_cli.version', path_to_module)
++loaded_module = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(loaded_module)
+ version = loaded_module.version
+ 
+ setup(
